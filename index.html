@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AP BPS Building Planner | Regularisation Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+  <header class="bg-white shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">AP BPS Building Planner</h1>
+        <p class="text-xs text-slate-500">Private BPS regularisation support</p>
+      </div>
+      <span class="text-xs px-3 py-1 rounded-full bg-emerald-100 text-emerald-700">
+        Work with me directly
+      </span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <section class="bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl px-4 py-3">
+      <strong>Note:</strong> Not an official AP Govt website — I assist privately.
+    </section>
+
+    <section id="home-section" class="space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+        <h2 class="text-2xl sm:text-3xl font-semibold mb-3">
+          Need help with AP BPS regularisation?
+        </h2>
+        <p class="text-sm text-slate-600 mb-5">
+          I guide house owners and builders in Andhra Pradesh to understand BPS rules and regularise buildings smoothly.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="https://wa.me/919515690987?text=Hi%20I%20need%20help%20with%20BPS"
+             target="_blank"
+             class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium">
+            WhatsApp Me
+          </a>
+          <a href="#contact-section"
+             class="px-4 py-2 rounded-lg border border-emerald-600 text-emerald-700 text-sm font-medium">
+            Request a call back
+          </a>
+          <button data-open-section="eligibility-section"
+                  class="px-4 py-2 rounded-lg border border-blue-600 text-blue-700 text-sm font-medium">
+            Check Eligibility
+          </button>
+          <button data-open-section="penalty-section"
+                  class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium">
+            Estimate Penalty
+          </button>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <section id="contact-section" class="bg-white rounded-2xl shadow-sm p-6 space-y-6">
+        <h3 class="text-lg font-semibold">Share your building details</h3>
+
+        <form name="bps-enquiry"
+              method="POST"
+              data-netlify="true"
+              action="/thanks.html"
+              class="space-y-4">
+
+          <input type="hidden" name="form-name" value="bps-enquiry" />
+
+          <input name="name" required placeholder="Your Name *"
+                 class="w-full rounded-lg border px-3 py-2 text-sm" />
+
+          <input name="phone" required placeholder="Mobile / WhatsApp *"
+                 class="w-full rounded-lg border px-3 py-2 text-sm" />
+
+          <input name="location" required placeholder="Building location (City / Village) *"
+                 class="w-full rounded-lg border px-3 py-2 text-sm" />
+
+          <select name="building_type"
+                  class="w-full rounded-lg border px-3 py-2 text-sm">
+            <option>Independent House</option>
+            <option>Apartment / Flats</option>
+            <option>Commercial</option>
+            <option>Mixed</option>
+          </select>
+
+          <input name="builtup_area" placeholder="Approx built-up area (sq.ft)"
+                 class="w-full rounded-lg border px-3 py-2 text-sm" />
+
+          <textarea name="message" rows="3" placeholder="Any issue? e.g., no approval"
+                    class="w-full rounded-lg border px-3 py-2 text-sm"></textarea>
+
+          <button type="submit"
+                  class="w-full px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold">
+            Submit details – I will contact you
+          </button>
+        </form>
+      </section>
+    </section>
+
+    <!-- ELIGIBILITY & PENALTY TOOLS (unchanged) -->
+    <section id="eligibility-section" class="hidden">
+      <button data-back class="text-sm">&larr; Back</button>
+      <form id="eligibility-form" class="bg-white p-6 rounded-xl space-y-4">
+        <input id="construction-year" placeholder="Construction Year" type="number" min="1970" max="2030"
+               class="w-full border px-3 py-2 rounded-lg" />
+        <select id="location-type" class="w-full border px-3 py-2 rounded-lg">
+          <option value="">Location</option>
+          <option value="corp">Municipal</option>
+          <option value="uda">UDA</option>
+          <option value="gp">Gram Panchayat</option>
+          <option value="outside">Outside AP</option>
+        </select>
+        <select id="building-type" class="w-full border px-3 py-2 rounded-lg">
+          <option>residential</option>
+          <option>apartment</option>
+          <option>commercial</option>
+          <option>mixed</option>
+        </select>
+        <select id="approved-plan" class="w-full border px-3 py-2 rounded-lg">
+          <option>dontknow</option>
+          <option>yes</option>
+          <option>no</option>
+        </select>
+        <button type="submit"
+                class="px-4 py-2 rounded-lg bg-blue-600 text-white">
+          Check
+        </button>
+      </form>
+      <div id="eligibility-result" class="hidden mt-4 text-sm p-3 rounded-xl border"></div>
+    </section>
+
+    <section id="penalty-section" class="hidden">
+      <button data-back class="text-sm">&larr; Back</button>
+      <form id="penalty-form"
+            class="bg-white p-6 space-y-4 rounded-xl">
+
+        <input id="builtup-area" type="number" placeholder="Built-up area (sq.ft)"
+               class="w-full border px-3 py-2 rounded-lg" />
+
+        <select id="usage-type"
+                class="w-full border px-3 py-2 rounded-lg">
+          <option value="">Usage</option>
+          <option value="residential">Residential</option>
+          <option value="apartment">Apartment</option>
+          <option value="commercial">Commercial</option>
+          <option value="mixed">Mixed</option>
+        </select>
+
+        <select id="city-class"
+                class="w-full border px-3 py-2 rounded-lg">
+          <option value="">City type</option>
+          <option value="tier1">Tier1</option>
+          <option value="tier2">Tier2</option>
+          <option value="tier3">Tier3</option>
+        </select>
+
+        <button type="submit"
+                class="px-4 py-2 rounded-lg bg-blue-600 text-white">
+          Estimate
+        </button>
+      </form>
+      <div id="penalty-result"
+           class="hidden mt-4 p-3 text-sm border rounded-xl"></div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
