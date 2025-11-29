@@ -4,6 +4,9 @@ window.addEventListener("load", () => {
   if (preloader) preloader.classList.add("hidden");
 });
 
+// Keep current language in a variable for dynamic text
+let currentLanguage = "en";
+
 // ===================== SCREENSHOT MODE =====================
 const screenshotToggleBtn = document.getElementById("screenshotToggleBtn");
 const screenshotBanner = document.getElementById("screenshotBanner");
@@ -148,7 +151,7 @@ const translations = {
     btnCalculate: "బీపీఎస్ చెక్ చేయి",
     rulesHeading: "అధికారిక బీపీఎస్ రూల్స్ – రిఫరెన్స్",
     rulesDesc:
-      "ఈ ఇమేజ్‌లో ముఖ్య బీపీఎఎస్ రూల్స్ / ఫీజు వివరాలు ఉంటాయి. అవసరమైతే జూమ్ చేసి చూడండి.",
+      "ఈ ఇమేజ్‌లో ముఖ్య బీపీఎస్ రూల్స్ / ఫీజు వివరాలు ఉంటాయి. అవసరమైతే జూమ్ చేసి చూడండి.",
     contactHeading: "నన్ను సంప్రదించండి",
     contactSubtitle:
       "బీపీఎస్, డౌట్స్ లేదా కలబరేషన్ కోసం ఎప్పుడైనా మెసేజ్ చేయండి.",
@@ -162,6 +165,7 @@ const translations = {
 function setLanguage(lang) {
   const dict = translations[lang];
   if (!dict) return;
+  currentLanguage = lang;
 
   i18nElements.forEach((el) => {
     const key = el.getAttribute("data-i18n");
@@ -195,4 +199,134 @@ if (langEnBtn) {
 }
 if (langTeBtn) {
   langTeBtn.addEventListener("click", () => setLanguage("te"));
+}
+
+// ===================== BPS CALCULATOR =====================
+const municipalitySelect = document.getElementById("municipalitySelect");
+const plotSizeInput = document.getElementById("plotSizeInput");
+const floorsInput = document.getElementById("floorsInput");
+const usageSelect = document.getElementById("usageSelect");
+const calculateBtn = document.getElementById("calculateBtn");
+const bpsResult = document.getElementById("bpsResult");
+const bpsResultTitle = document.getElementById("bpsResultTitle");
+const bpsResultDetail = document.getElementById("bpsResultDetail");
+
+// Predefined messages for result (EN + TE)
+const resultMessages = {
+  en: {
+    errorTitle: "Please fill all required details.",
+    errorDetail:
+      "Select municipality, plot size, number of floors and usage type, then try again.",
+    lowTitle: "Low risk – likely easier for BPS / regularisation.",
+    lowDetail:
+      "For a {plot} sq. yard {usage} building with {floors} floor(s) in {municipality}, the estimated BPS related fee is about ₹{fee}. This looks like a relatively simple case, subject to official rules.",
+    mediumTitle: "Medium risk – some deviations possible.",
+    mediumDetail:
+      "For a {plot} sq. yard {usage} building with {floors} floor(s) in {municipality}, the estimated BPS related fee is around ₹{fee}. Please cross-check official rules and consult an engineer / architect.",
+    highTitle: "High risk – please check rules carefully.",
+    highDetail:
+      "For a {plot} sq. yard {usage} building with {floors} floor(s) in {municipality}, the estimated BPS related fee could be ₹{fee} or more. This is only a rough helper; always verify with official BPS notifications.",
+  },
+  te: {
+    errorTitle: "అన్నీ వివరాలు పూర్తి చేయండి.",
+    errorDetail:
+      "మున్సిపాలిటీ, ప్లాట్ సైజు, అంతస్తులు, యూజ్ టైప్ సెలెక్ట్ చేసి మళ్లీ ప్రయత్నించండి.",
+    lowTitle: "లో రిస్క్ – బీపీఎస్ / రెగ్యులరైజేషన్ సులభంగా ఉండే అవకాశం.",
+    lowDetail:
+      "{municipality}లో {plot} చ.గజాల {usage} బిల్డింగ్‌కు {floors} అంతస్తులతో అంచనా బీపీఎస్ ఫీజు సుమారుగా ₹{fee}. ఇది సింపుల్ కేస్‌లా కనిపిస్తోంది (ఫైనల్‌గా అధికారిక రూల్స్‌నే ఫాలో అవ్వాలి).",
+    mediumTitle: "మీడియం రిస్క్ – కొంత డివియేషన్ ఉండే అవకాశం.",
+    mediumDetail:
+      "{municipality}లో {plot} చ.గజాల {usage} బిల్డింగ్, {floors} అంతస్తులతో ఉన్నప్పుడు బీపీఎస్ సంబంధిత ఫీజు సుమారుగా ₹{fee}. దయచేసి అధికారిక నోటిఫికేషన్లు, ఇంజనీర్ / ఆర్కిటెక్ట్ సలహా తప్పనిసరిగా చూసుకోండి.",
+    highTitle: "హై రిస్క్ – బీపీఎస్ రూల్స్ జాగ్రత్తగా చెక్ చేయాలి.",
+    highDetail:
+      "{municipality}లో {plot} చ.గజాల {usage} బిల్డింగ్‌కు {floors} అంతస్తులు ఉన్నందున బీపీఎస్ ఫీజు సుమారుగా ₹{fee} లేదా అంతకంటే ఎక్కువ కావచ్చు. ఇది కేవలం రఫ్ హెల్పర్ మాత్రమే; ఫైనల్ సమాచారం కోసం అధికారిక బీపీఎస్ నోటిఫికేషన్లు చూసుకోవాలి.",
+  },
+};
+
+if (
+  municipalitySelect &&
+  plotSizeInput &&
+  floorsInput &&
+  usageSelect &&
+  calculateBtn &&
+  bpsResult &&
+  bpsResultTitle &&
+  bpsResultDetail
+) {
+  calculateBtn.addEventListener("click", () => {
+    const municipality = municipalitySelect.value;
+    const plotSize = parseFloat(plotSizeInput.value);
+    const floors = parseInt(floorsInput.value, 10);
+    const usage = usageSelect.value;
+
+    // Basic validation
+    if (!municipality || !plotSize || plotSize <= 0 || !floors || floors <= 0) {
+      const msgSet = resultMessages[currentLanguage] || resultMessages.en;
+      bpsResultTitle.textContent = msgSet.errorTitle;
+      bpsResultDetail.textContent = msgSet.errorDetail;
+      bpsResult.classList.remove("hidden");
+      return;
+    }
+
+    // ---- Rough estimation logic (demo only, not official) ----
+    let baseRate;
+    switch (municipality) {
+      case "Guntur":
+        baseRate = 140;
+        break;
+      case "Vijayawada":
+        baseRate = 160;
+        break;
+      case "Amaravati / CRDA":
+        baseRate = 180;
+        break;
+      default:
+        baseRate = 120;
+    }
+
+    let usageFactor = 1;
+    if (usage === "Commercial") usageFactor = 1.4;
+    else if (usage === "Mixed") usageFactor = 1.2;
+
+    const floorsFactor = 1 + 0.15 * (floors - 1);
+
+    // keep fee realistic range
+    const rawFee = plotSize * baseRate * usageFactor * floorsFactor * 0.02;
+    const estimatedFee = Math.round(rawFee);
+
+    // Decide risk level
+    let level;
+    if (floors <= 2 && plotSize <= 200) level = "low";
+    else if (floors <= 4 && plotSize <= 400) level = "medium";
+    else level = "high";
+
+    const msgSet = resultMessages[currentLanguage] || resultMessages.en;
+
+    let titleText = "";
+    let detailTemplate = "";
+
+    if (level === "low") {
+      titleText = msgSet.lowTitle;
+      detailTemplate = msgSet.lowDetail;
+    } else if (level === "medium") {
+      titleText = msgSet.mediumTitle;
+      detailTemplate = msgSet.mediumDetail;
+    } else {
+      titleText = msgSet.highTitle;
+      detailTemplate = msgSet.highDetail;
+    }
+
+    const feeFormatted = estimatedFee.toLocaleString("en-IN");
+
+    const detailText = detailTemplate
+      .replace("{municipality}", municipality)
+      .replace("{usage}", usage)
+      .replace("{plot}", plotSize)
+      .replace("{floors}", floors)
+      .replace("{fee}", feeFormatted);
+
+    bpsResultTitle.textContent = titleText;
+    bpsResultDetail.textContent = detailText;
+    bpsResult.classList.remove("hidden");
+  });
 }
