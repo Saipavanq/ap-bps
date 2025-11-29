@@ -1,170 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>AP BPS Building Planner | Regularisation Services</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-slate-100 text-slate-900">
-  <header class="bg-white shadow-sm">
-    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div>
-        <h1 class="text-xl font-bold tracking-tight">AP BPS Building Planner</h1>
-        <p class="text-xs text-slate-500">Private BPS regularisation support</p>
-      </div>
-      <span class="text-xs px-3 py-1 rounded-full bg-emerald-100 text-emerald-700">
-        Work with me directly
+  <head>
+    <meta charset="UTF-8" />
+    <title>AP BPS Planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="min-h-screen bg-slate-100 text-slate-900">
+    <!-- Screenshot banner -->
+    <div
+      id="screenshotBanner"
+      class="hidden fixed top-0 inset-x-0 z-20 bg-amber-500 text-white px-4 py-2 flex items-center justify-between shadow-md"
+    >
+      <span class="text-sm md:text-base font-medium">
+        Screenshot mode ON – take your screenshot and click “Exit screenshot
+        mode” to come back.
       </span>
+      <button
+        id="exitScreenshotBtn"
+        class="ml-4 text-sm font-semibold underline"
+      >
+        Exit screenshot mode
+      </button>
     </div>
-  </header>
 
-  <main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
-    <section class="bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl px-4 py-3">
-      <strong>Note:</strong> Not an official AP Govt website — I assist privately.
-    </section>
+    <div class="max-w-5xl mx-auto px-4 pt-6 pb-10 space-y-6">
+      <!-- Header -->
+      <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold tracking-tight">
+            BPS Planner – Andhra Pradesh
+          </h1>
+          <p class="text-sm md:text-base text-slate-600">
+            Quick helper for building regularisation & BPS related checks in
+            Guntur & Vijayawada.
+          </p>
+        </div>
 
-    <section id="home-section" class="space-y-6">
-      <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-        <h2 class="text-2xl sm:text-3xl font-semibold mb-3">
-          Need help with AP BPS regularisation?
-        </h2>
-        <p class="text-sm text-slate-600 mb-5">
-          I guide house owners and builders in Andhra Pradesh to understand BPS rules and regularise buildings smoothly.
-        </p>
-
+        <!-- Top buttons -->
         <div class="flex flex-wrap gap-3">
-          <a href="https://wa.me/919515690987?text=Hi%20I%20need%20help%20with%20BPS"
-             target="_blank"
-             class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium">
-            WhatsApp Me
-          </a>
-          <a href="#contact-section"
-             class="px-4 py-2 rounded-lg border border-emerald-600 text-emerald-700 text-sm font-medium">
-            Request a call back
-          </a>
-          <button data-open-section="eligibility-section"
-                  class="px-4 py-2 rounded-lg border border-blue-600 text-blue-700 text-sm font-medium">
-            Check Eligibility
+          <button
+            id="screenshotToggleBtn"
+            class="px-4 py-2 text-sm font-medium rounded-lg border border-slate-300 bg-white hover:bg-slate-50"
+          >
+            Turn on screenshot mode
           </button>
-          <button data-open-section="penalty-section"
-                  class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 text-sm font-medium">
-            Estimate Penalty
+
+          <button
+            id="rulesToggleBtn"
+            class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+          >
+            Show BPS Rules (Image)
           </button>
         </div>
-      </div>
+      </header>
 
-      <!-- Contact Form -->
-      <section id="contact-section" class="bg-white rounded-2xl shadow-sm p-6 space-y-6">
-        <h3 class="text-lg font-semibold">Share your building details</h3>
+      <!-- Main card (your planner UI / form etc) -->
+      <main
+        class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 md:p-6 space-y-4"
+      >
+        <h2 class="text-lg md:text-xl font-semibold">
+          Project Details / BPS Check
+        </h2>
 
-        <form name="bps-enquiry"
-              method="POST"
-              data-netlify="true"
-              action="/thanks.html"
-              class="space-y-4">
+        <!-- Put your existing form / options here -->
+        <div class="grid md:grid-cols-2 gap-4 text-sm md:text-base">
+          <div class="space-y-2">
+            <label class="block text-slate-700 font-medium"
+              >Municipality / Corporation</label
+            >
+            <select
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select area</option>
+              <option>Guntur</option>
+              <option>Vijayawada</option>
+              <option>Amaravati / CRDA</option>
+              <option>Mangalagiri – Tadepalli</option>
+            </select>
+          </div>
 
-          <input type="hidden" name="form-name" value="bps-enquiry" />
+          <div class="space-y-2">
+            <label class="block text-slate-700 font-medium"
+              >Plot size (sq. yards)</label
+            >
+            <input
+              type="number"
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="e.g. 200"
+            />
+          </div>
 
-          <input name="name" required placeholder="Your Name *"
-                 class="w-full rounded-lg border px-3 py-2 text-sm" />
+          <div class="space-y-2">
+            <label class="block text-slate-700 font-medium"
+              >No. of floors</label
+            >
+            <input
+              type="number"
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-          <input name="phone" required placeholder="Mobile / WhatsApp *"
-                 class="w-full rounded-lg border px-3 py-2 text-sm" />
+          <div class="space-y-2">
+            <label class="block text-slate-700 font-medium"
+              >Usage type</label
+            >
+            <select
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option>Residential</option>
+              <option>Commercial</option>
+              <option>Mixed</option>
+            </select>
+          </div>
+        </div>
 
-          <input name="location" required placeholder="Building location (City / Village) *"
-                 class="w-full rounded-lg border px-3 py-2 text-sm" />
+        <button
+          class="mt-3 inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700"
+        >
+          Calculate / Check BPS
+        </button>
+      </main>
 
-          <select name="building_type"
-                  class="w-full rounded-lg border px-3 py-2 text-sm">
-            <option>Independent House</option>
-            <option>Apartment / Flats</option>
-            <option>Commercial</option>
-            <option>Mixed</option>
-          </select>
+      <!-- BPS RULES IMAGE SECTION -->
+      <section
+        id="rulesSection"
+        class="hidden bg-white rounded-2xl shadow-md border border-slate-200 p-4 md:p-6"
+      >
+        <h2 class="text-lg md:text-xl font-semibold mb-2">
+          Official BPS Rules – Reference
+        </h2>
+        <p class="text-sm md:text-base text-slate-600 mb-3">
+          This image contains the key BPS rules / fee details. Zoom in if
+          needed for clarity.
+        </p>
 
-          <input name="builtup_area" placeholder="Approx built-up area (sq.ft)"
-                 class="w-full rounded-lg border px-3 py-2 text-sm" />
-
-          <textarea name="message" rows="3" placeholder="Any issue? e.g., no approval"
-                    class="w-full rounded-lg border px-3 py-2 text-sm"></textarea>
-
-          <button type="submit"
-                  class="w-full px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold">
-            Submit details – I will contact you
-          </button>
-        </form>
+        <!-- The actual image file you added: rules.jpg -->
+        <div class="w-full">
+          <img
+            id="rulesImage"
+            src="rules.jpg"
+            alt="AP BPS Rules"
+            class="w-full max-h-[520px] object-contain rounded-xl border border-slate-200 shadow-sm"
+          />
+        </div>
       </section>
-    </section>
+    </div>
 
-    <!-- ELIGIBILITY & PENALTY TOOLS (unchanged) -->
-    <section id="eligibility-section" class="hidden">
-      <button data-back class="text-sm">&larr; Back</button>
-      <form id="eligibility-form" class="bg-white p-6 rounded-xl space-y-4">
-        <input id="construction-year" placeholder="Construction Year" type="number" min="1970" max="2030"
-               class="w-full border px-3 py-2 rounded-lg" />
-        <select id="location-type" class="w-full border px-3 py-2 rounded-lg">
-          <option value="">Location</option>
-          <option value="corp">Municipal</option>
-          <option value="uda">UDA</option>
-          <option value="gp">Gram Panchayat</option>
-          <option value="outside">Outside AP</option>
-        </select>
-        <select id="building-type" class="w-full border px-3 py-2 rounded-lg">
-          <option>residential</option>
-          <option>apartment</option>
-          <option>commercial</option>
-          <option>mixed</option>
-        </select>
-        <select id="approved-plan" class="w-full border px-3 py-2 rounded-lg">
-          <option>dontknow</option>
-          <option>yes</option>
-          <option>no</option>
-        </select>
-        <button type="submit"
-                class="px-4 py-2 rounded-lg bg-blue-600 text-white">
-          Check
-        </button>
-      </form>
-      <div id="eligibility-result" class="hidden mt-4 text-sm p-3 rounded-xl border"></div>
-    </section>
-
-    <section id="penalty-section" class="hidden">
-      <button data-back class="text-sm">&larr; Back</button>
-      <form id="penalty-form"
-            class="bg-white p-6 space-y-4 rounded-xl">
-
-        <input id="builtup-area" type="number" placeholder="Built-up area (sq.ft)"
-               class="w-full border px-3 py-2 rounded-lg" />
-
-        <select id="usage-type"
-                class="w-full border px-3 py-2 rounded-lg">
-          <option value="">Usage</option>
-          <option value="residential">Residential</option>
-          <option value="apartment">Apartment</option>
-          <option value="commercial">Commercial</option>
-          <option value="mixed">Mixed</option>
-        </select>
-
-        <select id="city-class"
-                class="w-full border px-3 py-2 rounded-lg">
-          <option value="">City type</option>
-          <option value="tier1">Tier1</option>
-          <option value="tier2">Tier2</option>
-          <option value="tier3">Tier3</option>
-        </select>
-
-        <button type="submit"
-                class="px-4 py-2 rounded-lg bg-blue-600 text-white">
-          Estimate
-        </button>
-      </form>
-      <div id="penalty-result"
-           class="hidden mt-4 p-3 text-sm border rounded-xl"></div>
-    </section>
-
-  </main>
-
-  <script src="script.js"></script>
-</body>
+    <!-- Your JS -->
+    <script src="script.js"></script>
+  </body>
 </html>

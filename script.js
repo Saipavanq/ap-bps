@@ -1,46 +1,42 @@
-const homeSection = document.getElementById("home-section");
-const sections = {
-  "eligibility-section": document.getElementById("eligibility-section"),
-  "penalty-section": document.getElementById("penalty-section"),
-};
+// Screenshot mode elements
+const screenshotToggleBtn = document.getElementById("screenshotToggleBtn");
+const screenshotBanner = document.getElementById("screenshotBanner");
+const exitScreenshotBtn = document.getElementById("exitScreenshotBtn");
 
-function showSection(id) {
-  homeSection.classList.add("hidden");
-  Object.values(sections).forEach(s => s.classList.add("hidden"));
-  if (id === "home-section") homeSection.classList.remove("hidden");
-  else if (sections[id]) sections[id].classList.remove("hidden");
+// Rules / image elements
+const rulesToggleBtn = document.getElementById("rulesToggleBtn");
+const rulesSection = document.getElementById("rulesSection");
+const rulesImage = document.getElementById("rulesImage");
+
+// Turn ON screenshot mode
+if (screenshotToggleBtn && screenshotBanner && exitScreenshotBtn) {
+  screenshotToggleBtn.addEventListener("click", () => {
+    screenshotBanner.classList.remove("hidden");
+    screenshotToggleBtn.classList.add("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Exit screenshot mode
+  exitScreenshotBtn.addEventListener("click", () => {
+    screenshotBanner.classList.add("hidden");
+    screenshotToggleBtn.classList.remove("hidden");
+  });
 }
 
-document.querySelectorAll("[data-open-section]").forEach(btn =>
-  btn.addEventListener("click", () => {
-    showSection(btn.getAttribute("data-open-section"));
-  })
-);
+// Show / hide BPS rules image section
+if (rulesToggleBtn && rulesSection && rulesImage) {
+  rulesToggleBtn.addEventListener("click", () => {
+    const isHidden = rulesSection.classList.contains("hidden");
+    rulesSection.classList.toggle("hidden");
 
-document.querySelectorAll("[data-back]").forEach(btn =>
-  btn.addEventListener("click", () => showSection("home-section"))
-);
-
-showSection("home-section");
-
-// Eligibility
-const eligibilityForm = document.getElementById("eligibility-form");
-const eligibilityResult = document.getElementById("eligibility-result");
-
-eligibilityForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  eligibilityResult.textContent =
-    "Basic eligibility: Looks possible — need official portal check.";
-  eligibilityResult.classList.remove("hidden");
-});
-
-// Penalty
-const penaltyForm = document.getElementById("penalty-form");
-const penaltyResult = document.getElementById("penalty-result");
-
-penaltyForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  penaltyResult.textContent =
-    "Rough penalty estimate requires more details — contact me.";
-  penaltyResult.classList.remove("hidden");
-});
+    // Button text change
+    if (isHidden) {
+      rulesToggleBtn.textContent = "Hide BPS Rules (Image)";
+      // Smooth scroll to the image
+      const y = rulesSection.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    } else {
+      rulesToggleBtn.textContent = "Show BPS Rules (Image)";
+    }
+  });
+}
