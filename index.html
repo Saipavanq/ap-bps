@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
   <head>
     <meta charset="UTF-8" />
     <title>BPS Planner – Andhra Pradesh</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind config (enable dark mode by class) -->
+    <script>
+      tailwind = { config: { darkMode: "class" } };
+    </script>
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +23,9 @@
     />
   </head>
 
-  <body class="min-h-screen bg-slate-100 text-slate-900">
+  <body
+    class="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100"
+  >
     <!-- PRELOADER -->
     <div
       id="preloader"
@@ -30,88 +37,85 @@
       <p class="text-white text-sm">Loading BPS Planner...</p>
     </div>
 
-    <!-- Screenshot banner -->
-    <div
-      id="screenshotBanner"
-      class="hidden fixed top-0 inset-x-0 z-30 bg-amber-500 text-white px-4 py-2 flex items-center justify-between shadow-md"
-    >
-      <span class="text-sm md:text-base font-medium">
-        Screenshot mode ON – take your screenshot and click “Exit screenshot
-        mode” to come back.
-      </span>
-      <button
-        id="exitScreenshotBtn"
-        class="ml-4 text-sm font-semibold underline"
-      >
-        Exit screenshot mode
-      </button>
-    </div>
-
-    <!-- NAVBAR -->
+    <!-- NAVBAR (inspired by govt portal style) -->
     <nav
-      class="bg-white/90 backdrop-blur sticky top-0 z-20 border-b border-slate-200"
+      class="bg-emerald-700 text-white shadow-md border-b border-emerald-800"
     >
       <div
-        class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4"
+        class="max-w-5xl mx-auto px-4 py-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
       >
-        <!-- Logo / brand -->
-        <div class="flex items-center gap-2">
+        <!-- Left: logo + titles -->
+        <div class="flex items-center gap-3">
           <div
-            class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-bold"
+            class="w-10 h-10 rounded-full bg-white flex items-center justify-center"
           >
-            BPS
+            <span class="text-emerald-700 font-bold text-xs">AP</span>
           </div>
           <div>
             <h1
-              class="text-base md:text-lg font-semibold leading-tight"
+              class="text-sm md:text-base font-semibold"
               data-i18n="title"
             >
               BPS Planner – Andhra Pradesh
             </h1>
-            <p
-              class="text-xs md:text-sm text-slate-500"
-              data-i18n="subtitle"
-            >
-              Quick helper for building regularisation in Guntur & Vijayawada.
+            <p class="text-[11px] md:text-xs text-emerald-100" data-i18n="subtitle">
+              Helper for Building Penalisation Scheme checks (inspired by DTCP
+              calculator).
             </p>
           </div>
         </div>
 
-        <!-- Nav links -->
-        <div class="hidden md:flex items-center gap-4 text-sm font-medium">
+        <!-- Right: nav + language + theme -->
+        <div
+          class="flex flex-wrap items-center gap-3 md:justify-end text-xs md:text-sm"
+        >
           <a
             href="#planner"
-            class="text-slate-700 hover:text-blue-600"
+            class="hover:underline"
             data-i18n="navPlanner"
             >Planner</a
           >
           <a
             href="#rulesSection"
-            class="text-slate-700 hover:text-blue-600"
+            class="hover:underline"
             data-i18n="navRules"
             >Rules</a
           >
           <a
             href="#contact"
-            class="text-slate-700 hover:text-blue-600"
+            class="hover:underline"
             data-i18n="navContact"
             >Contact</a
           >
-        </div>
 
-        <!-- Language switch -->
-        <div class="flex items-center gap-2 text-xs md:text-sm">
-          <button
-            id="langEn"
-            class="px-2 py-1 rounded border border-slate-300 bg-white font-semibold"
+          <!-- Language -->
+          <div
+            class="flex items-center gap-1 rounded-lg bg-emerald-800 px-2 py-1"
           >
-            EN
-          </button>
+            <button
+              id="langEn"
+              class="px-2 py-[2px] rounded bg-white text-emerald-700 text-[11px] font-semibold"
+            >
+              EN
+            </button>
+            <button
+              id="langTe"
+              class="px-2 py-[2px] rounded text-emerald-100 text-[11px]"
+            >
+              TE
+            </button>
+          </div>
+
+          <!-- Theme toggle -->
           <button
-            id="langTe"
-            class="px-2 py-1 rounded border border-transparent text-slate-600"
+            id="themeToggleBtn"
+            class="w-9 h-9 rounded-full border border-emerald-200/60 bg-emerald-600/60 flex items-center justify-center hover:bg-emerald-500 transition"
+            title="Toggle light / dark"
           >
-            TE
+            <i
+              id="themeToggleIcon"
+              class="fa-solid fa-moon text-xs"
+            ></i>
           </button>
         </div>
       </div>
@@ -119,148 +123,170 @@
 
     <!-- PAGE CONTENT -->
     <div class="max-w-5xl mx-auto px-4 pt-6 pb-20 space-y-6">
-      <!-- Header controls -->
+      <!-- Info strip like govt site -->
       <header
-        class="flex flex-col md:flex-row md:items-center md:justify-between gap-3"
+        class="rounded-xl border border-emerald-700/30 bg-emerald-50 text-emerald-900 text-xs md:text-sm px-4 py-3 flex flex-col gap-1 dark:bg-emerald-900/40 dark:border-emerald-700 dark:text-emerald-50"
       >
-        <p
-          class="text-sm md:text-base text-slate-600 max-w-xl"
-          data-i18n="heroText"
-        >
-          Use this simple planner to quickly check basic BPS-related details for
-          your building projects in Andhra Pradesh.
-        </p>
-
-        <!-- Top buttons -->
-        <div class="flex flex-wrap gap-3">
-          <button
-            id="screenshotToggleBtn"
-            class="px-4 py-2 text-sm font-medium rounded-lg border border-slate-300 bg-white hover:bg-slate-50"
-            data-i18n="btnScreenshot"
-          >
-            Turn on screenshot mode
-          </button>
-
-          <button
-            id="rulesToggleBtn"
-            class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700"
-            data-i18n="btnRules"
-          >
-            Show BPS Rules (Image)
-          </button>
-        </div>
+        <span class="font-semibold" data-i18n="heroText">
+          Building Penalisation Scheme helper for quick estimation and
+          documentation reference. This is not an official government
+          calculator.
+        </span>
+        <span class="text-[11px]">
+          Data should always be cross-checked with the official DTCP / BPS
+          portal before taking any decision.
+        </span>
       </header>
 
-      <!-- MAIN PLANNER CARD -->
+      <!-- MAIN PLANNER CARD (layout inspired from screenshot) -->
       <main
         id="planner"
-        class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 md:p-6 space-y-4"
+        class="rounded-2xl shadow-md border border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700"
       >
-        <h2
-          class="text-lg md:text-xl font-semibold"
-          data-i18n="plannerHeading"
+        <!-- Top bar like "Calculator" -->
+        <div
+          class="bg-emerald-700 text-white rounded-t-2xl px-4 py-2 text-sm font-semibold"
         >
-          Project Details / BPS Check
-        </h2>
-        <p
-          class="text-sm md:text-base text-slate-600"
-          data-i18n="plannerDesc"
-        >
-          Fill these basic details to estimate how your building may fall under
-          BPS / regularisation norms.
-        </p>
-
-        <div class="grid md:grid-cols-2 gap-4 text-sm md:text-base mt-2">
-          <div class="space-y-2">
-            <label
-              class="block text-slate-700 font-medium"
-              data-i18n="labelMunicipality"
-              >Municipality / Corporation</label
-            >
-            <select
-              id="municipalitySelect"
-              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select area</option>
-              <option value="Guntur">Guntur</option>
-              <option value="Vijayawada">Vijayawada</option>
-              <option value="Amaravati / CRDA">Amaravati / CRDA</option>
-              <option value="Mangalagiri – Tadepalli">
-                Mangalagiri – Tadepalli
-              </option>
-            </select>
-          </div>
-
-          <div class="space-y-2">
-            <label
-              class="block text-slate-700 font-medium"
-              data-i18n="labelPlotSize"
-              >Plot size (sq. yards)</label
-            >
-            <input
-              id="plotSizeInput"
-              type="number"
-              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g. 200"
-            />
-          </div>
-
-          <div class="space-y-2">
-            <label
-              class="block text-slate-700 font-medium"
-              data-i18n="labelFloors"
-              >No. of floors</label
-            >
-            <input
-              id="floorsInput"
-              type="number"
-              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div class="space-y-2">
-            <label
-              class="block text-slate-700 font-medium"
-              data-i18n="labelUsage"
-              >Usage type</label
-            >
-            <select
-              id="usageSelect"
-              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Mixed">Mixed</option>
-            </select>
-          </div>
+          Calculator
         </div>
 
-        <!-- Calculate button -->
-        <button
-          id="calculateBtn"
-          class="mt-3 inline-flex items-center px-4 py-2 text-sm font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700"
-          data-i18n="btnCalculate"
-        >
-          Calculate / Check BPS
-        </button>
-
-        <!-- RESULT BOX -->
-        <div id="bpsResult" class="mt-4 hidden">
-          <div
-            class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 space-y-1"
+        <div class="p-4 md:p-6 space-y-4">
+          <h2
+            class="text-lg md:text-xl font-semibold"
+            data-i18n="plannerHeading"
           >
-            <p
-              id="bpsResultTitle"
-              class="font-semibold text-emerald-800 text-sm md:text-base"
+            Project Details / BPS Check
+          </h2>
+          <p
+            class="text-sm md:text-base text-slate-600 dark:text-slate-300"
+            data-i18n="plannerDesc"
+          >
+            Fill these basic details to estimate how your building may fall
+            under BPS / regularisation norms.
+          </p>
+
+          <!-- Form grid similar to govt layout -->
+          <div
+            class="grid md:grid-cols-2 gap-4 text-xs md:text-sm mt-2"
+          >
+            <div class="space-y-1">
+              <label
+                class="block text-slate-700 dark:text-slate-200 font-medium"
+                data-i18n="labelMunicipality"
+                >Municipality / Corporation</label
+              >
+              <select
+                id="municipalitySelect"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
+              >
+                <option value="">Select area</option>
+                <option value="Guntur">Guntur</option>
+                <option value="Vijayawada">Vijayawada</option>
+                <option value="Amaravati / CRDA">Amaravati / CRDA</option>
+                <option value="Mangalagiri – Tadepalli">
+                  Mangalagiri – Tadepalli
+                </option>
+              </select>
+            </div>
+
+            <div class="space-y-1">
+              <label
+                class="block text-slate-700 dark:text-slate-200 font-medium"
+                data-i18n="labelPlotSize"
+                >Net Plot area (sq. yards)</label
+              >
+              <input
+                id="plotSizeInput"
+                type="number"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="e.g. 200"
+              />
+            </div>
+
+            <div class="space-y-1">
+              <label
+                class="block text-slate-700 dark:text-slate-200 font-medium"
+                >Market value per sq. yard (₹)</label
+              >
+              <input
+                id="marketValueInput"
+                type="number"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="e.g. 3000"
+              />
+            </div>
+
+            <div class="space-y-1">
+              <label
+                class="block text-slate-700 dark:text-slate-200 font-medium"
+                data-i18n="labelFloors"
+                >No. of floors</label
+              >
+              <input
+                id="floorsInput"
+                type="number"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="e.g. 2"
+              />
+            </div>
+
+            <div class="space-y-1">
+              <label
+                class="block text-slate-700 dark:text-slate-200 font-medium"
+                data-i18n="labelUsage"
+                >Building usage type</label
+              >
+              <select
+                id="usageSelect"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
+              >
+                <option value="Residential">Residential</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Mixed">Mixed</option>
+              </select>
+            </div>
+
+            <div class="space-y-1">
+              <label
+                class="block text-slate-700 dark:text-slate-200 font-medium"
+                >Basic penalisation percentage (%)</label
+              >
+              <input
+                id="penaltyPercentInput"
+                type="number"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="e.g. 20"
+              />
+            </div>
+          </div>
+
+          <!-- Calculate button -->
+          <button
+            id="calculateBtn"
+            class="mt-3 inline-flex items-center px-5 py-2 text-sm font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700"
+            data-i18n="btnCalculate"
+          >
+            Calculate / Check BPS
+          </button>
+
+          <!-- RESULT BOX -->
+          <div id="bpsResult" class="mt-4 hidden">
+            <div
+              class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 space-y-1 dark:border-emerald-700 dark:bg-emerald-900/40"
             >
-              Result will appear here after calculation.
-            </p>
-            <p
-              id="bpsResultDetail"
-              class="text-xs md:text-sm text-emerald-900"
-            >
-              Fill the details above and click “Calculate / Check BPS”.
-            </p>
+              <p
+                id="bpsResultTitle"
+                class="font-semibold text-emerald-800 text-sm md:text-base dark:text-emerald-100"
+              >
+                Result will appear here after calculation.
+              </p>
+              <p
+                id="bpsResultDetail"
+                class="text-xs md:text-sm text-emerald-900 dark:text-emerald-50/90"
+              >
+                Fill the details above and click “Calculate / Check BPS”.
+              </p>
+            </div>
           </div>
         </div>
       </main>
@@ -268,7 +294,7 @@
       <!-- BPS RULES IMAGE SECTION -->
       <section
         id="rulesSection"
-        class="hidden bg-white rounded-2xl shadow-md border border-slate-200 p-4 md:p-6"
+        class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 md:p-6 dark:bg-slate-900 dark:border-slate-700"
       >
         <h2
           class="text-lg md:text-xl font-semibold mb-2"
@@ -277,7 +303,7 @@
           Official BPS Rules – Reference
         </h2>
         <p
-          class="text-sm md:text-base text-slate-600 mb-3"
+          class="text-sm md:text-base text-slate-600 mb-3 dark:text-slate-300"
           data-i18n="rulesDesc"
         >
           This image contains key BPS rules / fee details. Zoom in if needed
@@ -289,7 +315,7 @@
             id="rulesImage"
             src="rules.jpg"
             alt="AP BPS Rules"
-            class="w-full max-h-[520px] object-contain rounded-xl border border-slate-200 shadow-sm"
+            class="w-full max-h-[520px] object-contain rounded-xl border border-slate-200 shadow-sm dark:border-slate-700"
           />
         </div>
       </section>
@@ -297,7 +323,7 @@
       <!-- CONTACT SECTION -->
       <section
         id="contact"
-        class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 md:p-6 space-y-6"
+        class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 md:p-6 space-y-6 dark:bg-slate-900 dark:border-slate-700"
       >
         <div class="text-center space-y-2">
           <h2
@@ -307,7 +333,7 @@
             Contact Me
           </h2>
           <p
-            class="text-sm md:text-base text-slate-600"
+            class="text-sm md:text-base text-slate-600 dark:text-slate-300"
             data-i18n="contactSubtitle"
           >
             Feel free to reach out for any BPS related help, doubts or
@@ -320,7 +346,7 @@
           <!-- Email -->
           <a
             href="mailto:mallampatisaipavan@gmail.com"
-            class="hover:text-yellow-300 transition"
+            class="hover:text-yellow-400 transition"
             aria-label="Email"
           >
             <i class="fa-solid fa-envelope"></i>
@@ -350,7 +376,7 @@
           <a
             href="https://x.com/saipavan1475"
             target="_blank"
-            class="hover:text-slate-300 transition"
+            class="hover:text-slate-400 transition"
             aria-label="X"
           >
             <i class="fa-brands fa-x-twitter"></i>
@@ -366,7 +392,7 @@
             <div class="space-y-1">
               <label
                 for="contactName"
-                class="block text-slate-700 font-medium"
+                class="block text-slate-700 dark:text-slate-200 font-medium"
                 data-i18n="formNameLabel"
                 >Your name</label
               >
@@ -374,14 +400,14 @@
                 id="contactName"
                 type="text"
                 required
-                class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
                 placeholder="Enter your name"
               />
             </div>
             <div class="space-y-1">
               <label
                 for="contactEmail"
-                class="block text-slate-700 font-medium"
+                class="block text-slate-700 dark:text-slate-200 font-medium"
                 data-i18n="formEmailLabel"
                 >Your email</label
               >
@@ -389,7 +415,7 @@
                 id="contactEmail"
                 type="email"
                 required
-                class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
                 placeholder="Enter your email"
               />
             </div>
@@ -398,7 +424,7 @@
           <div class="space-y-1">
             <label
               for="contactMessage"
-              class="block text-slate-700 font-medium"
+              class="block text-slate-700 dark:text-slate-200 font-medium"
               data-i18n="formMessageLabel"
               >Message</label
             >
@@ -406,14 +432,14 @@
               id="contactMessage"
               rows="4"
               required
-              class="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
               placeholder="Tell me what you need help with"
             ></textarea>
           </div>
 
           <button
             type="submit"
-            class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700"
+            class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700"
             data-i18n="formSubmit"
           >
             Send message
@@ -441,9 +467,9 @@
     </a>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-900 text-white py-4">
+    <footer class="bg-slate-900 text-white py-4 mt-4">
       <div class="max-w-5xl mx-auto px-4 text-center text-xs text-slate-400">
-        © 2025 BPS Planner — All Rights Reserved
+        © 2025 BPS Planner — Inspired by AP DTCP BPS Calculator (Unofficial).
       </div>
     </footer>
 
